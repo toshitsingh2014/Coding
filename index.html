@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <section class="calc" aria-label="Calculator">
+
+      <header class="calc__header">
+        <div class="calc__brand">
+          <span class="calc__dot"></span>
+          <h1 class="calc__title">Calculator</h1>
+        </div>
+        <span class="calc__badge">PRO</span>
+      </header>
+
+      <div class="display">
+        <div class="display__label">Expression</div>
+        <input
+          class="display__input"
+          type="text"
+          name="display"
+          data-display
+          inputmode="decimal"
+          autocomplete="off"
+          spellcheck="false"
+          aria-label="Calculator display"
+          placeholder="0"
+        >
+      </div>
+
+      <div class="keys" data-keys>
+        <button class="key key--danger" type="button" data-action="clear-all">AC</button>
+        <button class="key key--muted" type="button" data-action="backspace">⌫</button>
+        <button class="key key--muted" type="button" data-value="(">(</button>
+        <button class="key key--muted" type="button" data-value=")">)</button>
+
+        <button class="key" type="button" data-value="7">7</button>
+        <button class="key" type="button" data-value="8">8</button>
+        <button class="key" type="button" data-value="9">9</button>
+        <button class="key key--op" type="button" data-value="/">÷</button>
+
+        <button class="key" type="button" data-value="4">4</button>
+        <button class="key" type="button" data-value="5">5</button>
+        <button class="key" type="button" data-value="6">6</button>
+        <button class="key key--op" type="button" data-value="*">×</button>
+
+        <button class="key" type="button" data-value="1">1</button>
+        <button class="key" type="button" data-value="2">2</button>
+        <button class="key" type="button" data-value="3">3</button>
+        <button class="key key--op" type="button" data-value="-">−</button>
+
+        <button class="key" type="button" data-value="00">00</button>
+        <button class="key" type="button" data-value="0">0</button>
+        <button class="key" type="button" data-value=".">.</button>
+        <button class="key key--op" type="button" data-value="+">+</button>
+
+        <button class="key key--equal key--span-4" type="button" data-action="evaluate">=</button>
+      </div>
+
+    </section>
+  </main>
+
+  <script src="index.js"></script>
+</body>
+</html>
