@@ -3,66 +3,109 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calculator</title>
+  <title>Professional Calculator</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main class="app">
-    <section class="calc" aria-label="Calculator">
-
-      <header class="calc__header">
-        <div class="calc__brand">
-          <span class="calc__dot"></span>
-          <h1 class="calc__title">Calculator</h1>
+    <div class="container">
+      <!-- Sidebar with history and memory -->
+      <aside class="sidebar" data-sidebar>
+        <div class="sidebar__header">
+          <h2 class="sidebar__title">History</h2>
+          <button class="sidebar__clear" type="button" data-action="clear-history" title="Clear history">×</button>
         </div>
-        <span class="calc__badge">PRO</span>
-      </header>
+        <div class="history" data-history></div>
 
-      <div class="display">
-        <div class="display__label">Expression</div>
-        <input
-          class="display__input"
-          type="text"
-          name="display"
-          data-display
-          inputmode="decimal"
-          autocomplete="off"
-          spellcheck="false"
-          aria-label="Calculator display"
-          placeholder="0"
-        >
-      </div>
+        <div class="sidebar__divider"></div>
 
-      <div class="keys" data-keys>
-        <button class="key key--danger" type="button" data-action="clear-all">AC</button>
-        <button class="key key--muted" type="button" data-action="backspace">⌫</button>
-        <button class="key key--muted" type="button" data-value="(">(</button>
-        <button class="key key--muted" type="button" data-value=")">)</button>
+        <div class="memory-panel">
+          <h3 class="memory-panel__title">Memory</h3>
+          <div class="memory-display" data-memory-display>0</div>
+          <div class="memory-buttons">
+            <button class="mem-btn" type="button" data-action="memory-clear" title="Clear Memory">MC</button>
+            <button class="mem-btn" type="button" data-action="memory-recall" title="Recall Memory">MR</button>
+            <button class="mem-btn" type="button" data-action="memory-add" title="Add to Memory">M+</button>
+            <button class="mem-btn" type="button" data-action="memory-subtract" title="Subtract from Memory">M−</button>
+          </div>
+        </div>
+      </aside>
 
-        <button class="key" type="button" data-value="7">7</button>
-        <button class="key" type="button" data-value="8">8</button>
-        <button class="key" type="button" data-value="9">9</button>
-        <button class="key key--op" type="button" data-value="/">÷</button>
+      <!-- Main calculator -->
+      <section class="calc" aria-label="Professional Calculator">
+        <header class="calc__header">
+          <div class="calc__brand">
+            <span class="calc__dot"></span>
+            <h1 class="calc__title">Calculator Pro</h1>
+          </div>
+          <div class="calc__controls">
+            <button class="theme-toggle" type="button" data-action="toggle-theme" title="Toggle theme">🌙</button>
+            <button class="mode-toggle" type="button" data-action="toggle-mode" title="Toggle Scientific Mode">SCI</button>
+          </div>
+        </header>
 
-        <button class="key" type="button" data-value="4">4</button>
-        <button class="key" type="button" data-value="5">5</button>
-        <button class="key" type="button" data-value="6">6</button>
-        <button class="key key--op" type="button" data-value="*">×</button>
+        <div class="display">
+          <div class="display__label">Expression</div>
+          <input
+            class="display__input"
+            type="text"
+            name="display"
+            data-display
+            inputmode="decimal"
+            autocomplete="off"
+            spellcheck="false"
+            aria-label="Calculator display"
+            placeholder="0"
+          >
+        </div>
 
-        <button class="key" type="button" data-value="1">1</button>
-        <button class="key" type="button" data-value="2">2</button>
-        <button class="key" type="button" data-value="3">3</button>
-        <button class="key key--op" type="button" data-value="-">−</button>
+        <!-- Scientific Panel (hidden by default) -->
+        <div class="scientific-panel" data-scientific>
+          <button class="key key--sci" type="button" data-value="Math.PI">π</button>
+          <button class="key key--sci" type="button" data-value="Math.E">e</button>
+          <button class="key key--sci" type="button" data-action="sin">sin</button>
+          <button class="key key--sci" type="button" data-action="cos">cos</button>
+          <button class="key key--sci" type="button" data-action="tan">tan</button>
+          <button class="key key--sci" type="button" data-action="sqrt">√</button>
+          <button class="key key--sci" type="button" data-action="power">x²</button>
+          <button class="key key--sci" type="button" data-action="cube">x³</button>
+          <button class="key key--sci" type="button" data-action="log">log</button>
+          <button class="key key--sci" type="button" data-action="ln">ln</button>
+          <button class="key key--sci" type="button" data-action="factorial">n!</button>
+          <button class="key key--sci" type="button" data-action="inverse">1/x</button>
+        </div>
 
-        <button class="key" type="button" data-value="00">00</button>
-        <button class="key" type="button" data-value="0">0</button>
-        <button class="key" type="button" data-value=".">.</button>
-        <button class="key key--op" type="button" data-value="+">+</button>
+        <!-- Basic Keys -->
+        <div class="keys" data-keys>
+          <button class="key key--danger" type="button" data-action="clear-all">AC</button>
+          <button class="key key--muted" type="button" data-action="backspace">⌫</button>
+          <button class="key key--muted" type="button" data-value="(">(</button>
+          <button class="key key--muted" type="button" data-value=")">)</button>
 
-        <button class="key key--equal key--span-4" type="button" data-action="evaluate">=</button>
-      </div>
+          <button class="key" type="button" data-value="7">7</button>
+          <button class="key" type="button" data-value="8">8</button>
+          <button class="key" type="button" data-value="9">9</button>
+          <button class="key key--op" type="button" data-value="/">÷</button>
 
-    </section>
+          <button class="key" type="button" data-value="4">4</button>
+          <button class="key" type="button" data-value="5">5</button>
+          <button class="key" type="button" data-value="6">6</button>
+          <button class="key key--op" type="button" data-value="*">×</button>
+
+          <button class="key" type="button" data-value="1">1</button>
+          <button class="key" type="button" data-value="2">2</button>
+          <button class="key" type="button" data-value="3">3</button>
+          <button class="key key--op" type="button" data-value="-">−</button>
+
+          <button class="key" type="button" data-value="00">00</button>
+          <button class="key" type="button" data-value="0">0</button>
+          <button class="key" type="button" data-value=".">.</button>
+          <button class="key key--op" type="button" data-value="+">+</button>
+
+          <button class="key key--equal key--span-4" type="button" data-action="evaluate">=</button>
+        </div>
+      </section>
+    </div>
   </main>
 
   <script src="index.js"></script>
