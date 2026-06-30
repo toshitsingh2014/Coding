@@ -159,3 +159,11 @@ display?.addEventListener("focus", () => {
   display.setSelectionRange(end, end);
 });
 
+// Browsers may restore the previously typed value (including a stale "Error")
+// when the page is reopened or navigated back to via the bfcache. Always start
+// each session with an empty display. `pageshow` fires on both initial load and
+// bfcache restores, covering every way the page can be opened.
+window.addEventListener("pageshow", () => {
+  clearAll();
+});
+
