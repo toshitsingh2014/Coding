@@ -1,58 +1,141 @@
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
+import 'database.dart';
 
 class DatabaseHelper {
-  static Database? _database;
+  // ==========================================================
+  // USER / REGISTER
+  // ==========================================================
 
-  static Future<Database> get database async {
-    if (_database != null) {
-      return _database!;
+  static Future<bool> registerUser({
+    required String username,
+    required String password,
+  }) async {
+    final db = await DatabaseManager.database;
+
+    try {
+      await db.insert(
+        'users',
+        {
+          'username': username,
+          'password': password,
+        },
+      );
+
+      return true;
+    } catch (e) {
+      return false;
     }
-
-    _database = await _initDatabase();
-    return _database!;
   }
 
-  static Future<Database> _initDatabase() async {
-    final databasePath = await getDatabasesPath();
-    final path = join(databasePath, 'student_app.db');
+  // ==========================================================
+  // USER / LOGIN
+  // ==========================================================
 
-    return await openDatabase(
-      path,
-      version: 1,
-      onCreate: (db, version) async {
-        await db.execute('''
-          CREATE TABLE students (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            age INTEGER NOT NULL,
-            className TEXT NOT NULL
-          )
-        ''');
-      },
+  static Future<bool> loginUser({
+    required String username,
+    required String password,
+  }) async {
+    final db = await DatabaseManager.database;
+
+    final result = await db.query(
+      'users',
+      where: 'username = ? AND password = ?',
+      whereArgs: [
+        username,
+        password,
+      ],
+      limit: 1,
     );
+
+    return result.isNotEmpty;
   }
 
-  static Future<int> addStudent(
-    String name,
-    int age,
-    String className,
-  ) async {
-    final db = await database;
+  // ==========================================================
+  // ADD STUDENT
+  // ==========================================================
 
-    return await db.insert(
+  static Future<int> addStudent({
+    required String name,
+    required String course,
+  }) async {
+    final db = await DatabaseManager.database;
+
+    return db.insert(
       'students',
       {
         'name': name,
-        'age': age,
-        'className': className,
+        'course': course,
       },
     );
   }
 
-  static Future<List<Map<String, dynamic>>> getStudents() async {
-    final db = await database;
+  // ==========================================================
+  // GET STUDENTS
+  // ==========================================================
 
-    return await db.query('students');
+  static Future<List<Map<String, dynamic>>> getStudents() async {
+    final db = await DatabaseManager.database;
+
+    return db.query(
+      'students',
+      orderBy: 'id DESC',
+    );
+  }
+
+  // ==========================================================
+  // SEARCH STUDENTS
+  // ==========================================================
+
+  static Future<List<Map<String, dynamic>>> searchStudents(String text) async {
+    final db = await DatabaseManager.database;
+
+    if (text.trim().isEmpty) {
+      return getStudents();
+    }
+
+    return db.query(
+      'students',
+      where: 'name LIKE ? OR course LIKE ?',
+      whereArgs: [
+        '%${text.trim()}%',
+        '%${text.trim()}%',
+      ],
+      orderBy: 'name ASC',
+    );
+  }
+
+  // ==========================================================
+  // UPDATE STUDENT
+  // ==========================================================
+
+  static Future<int> updateStudent({
+    required int id,
+    required String name,
+    required String course,
+  }) async {
+    final db = await DatabaseManager.database;
+
+    return db.update(
+      'students',
+      {
+        'name': name,
+        'course': course,
+      },
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+
+  // ==========================================================
+  // DELETE STUDENT
+  // ==========================================================
+
+  static Future<int> deleteStudent(int id) async {
+    final db = await DatabaseManager.database;
+
+    return db.delete(
+      'students',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
   }
 }
